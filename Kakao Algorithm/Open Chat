@@ -1,0 +1,53 @@
+// 오픈 채팅방 문제.
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class kakaoRecord {
+    public static void main(String[] args){
+        kakaoRecord kr = new kakaoRecord();
+        String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan","Leave uid4567"};
+        System.out.println(kr.solution(record));
+    }
+
+    public String[] solution(String[] record) {
+        Map<String,String> map = new HashMap<String,String>();  // id와 닉네임을 저장할 HashMap
+        ArrayList<String> answerList = new ArrayList<String>(); // 가변적인답을 저장할 리스트
+        String[] spList = {};                                   // 공백을 기준으로 자른 문자열을 저장할 배열
+        String[] answer = {};                                   // 최종 답이 저장 될 배열
+        String status;                                          // Enter or Leave or Change가 저장될 변수
+        String id;                                              // 사용자의 id가 저장될 변수
+        String name = null;                                     // 사용자의 닉네임이 저장될 변수
+        
+        for(int i=0; i<record.length; i++){                     // 맵 key value에 id,닉네임을 저장하기 위해 사용될 반복문
+            spList = record[i].split(" ");
+            status = spList[0];
+            id = spList[1];
+            if(status.equals("Enter")){
+                name = spList[2];
+                map.put(id,name);                // Map 값
+            }
+            if(spList.length==3){
+                if(status.equals("Change")){
+                    name = spList[2];
+                    map.replace(id,name);                     // Map 값
+                }
+            }
+        }
+        
+        for(int j=0; j<record.length; j++){                     // 최종 답안을 추가시키는 반복문
+            spList = record[j].split(" ");
+            status = spList[0];
+            id = spList[1];
+            if(status.equals("Enter")){
+                answerList.add(map.get(id)+"님이 들어왔습니다.");
+            }
+            if(status.equals("Leave")){
+                answerList.add(map.get(id)+"님이 나갔습니다.");
+            }
+        }
+        answer = answerList.toArray(new String[0]);            // List를 String 배열로 
+        return answer;
+    }
+}
