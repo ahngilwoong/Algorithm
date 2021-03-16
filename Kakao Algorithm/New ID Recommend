@@ -1,0 +1,79 @@
+class Solution {
+  	
+	public static String solution(String new_id) {
+		String answer = "";
+		String str2 = "[-_.]";
+		// 1단계
+		
+		new_id = new_id.toLowerCase();
+		// 2단계
+		new_id = new_id.replaceAll("[^a-zA-Z0-9-_.]", "");
+		// 3단계
+		new_id = new_id.replaceAll("\\.{2,}", ".");
+
+		int cnt_id = new_id.length();
+		
+		// 4단계
+		if(new_id.length() != 0) {
+			cnt_id = new_id.length();
+			char first_str = new_id.charAt(0);
+			char last_str = new_id.charAt(cnt_id - 1);
+			String as = Character.toString(last_str);
+			String fs = Character.toString(first_str);
+
+	        //
+			if (fs.equals(".")) {
+				new_id = new_id.substring(1, cnt_id);
+			}
+			cnt_id = new_id.length();
+			if(cnt_id != 0) {
+				if (as.equals(".")) {
+					new_id = new_id.substring(0, cnt_id - 1);
+				}
+			}
+
+		}
+		
+		// 5단계
+		if (new_id.isEmpty()) {
+			new_id = "a";
+		}
+
+		cnt_id = new_id.length();
+		
+		// 6단계
+		if (cnt_id >= 16) {
+			// 15글자
+			new_id = new_id.substring(0, 15);
+			
+			// . 지우기
+			cnt_id = new_id.length();
+			char last_str = new_id.charAt(cnt_id - 1);
+			last_str = new_id.charAt(cnt_id - 1);
+			String as = Character.toString(last_str);
+			as = Character.toString(last_str);
+			if (as.equals(".")) {
+				new_id = new_id.substring(0, cnt_id - 1);
+
+			}
+
+		}
+		cnt_id = new_id.length();
+
+		// 7단계
+		if (cnt_id <= 2) {
+			while (cnt_id != 3) {
+				char last_str = new_id.charAt(cnt_id - 1);
+				String as = Character.toString(last_str);
+				as = Character.toString(last_str);
+				new_id = new_id + as;
+				cnt_id++;
+
+			}
+			
+		}
+		cnt_id = new_id.length();
+		System.out.println(new_id);
+		return new_id;
+	}
+}
