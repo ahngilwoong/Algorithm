@@ -1,0 +1,44 @@
+import java.util.Stack;
+
+public class crain {
+    public static void main(String[] args) {
+        int[][] board = {{0, 0, 0, 0, 0},{0,0,1,0,3},{0,2,5,0,1},{4,2,4,4,2},{3,5,1,3,1}};
+        int [] moves = {1,5,3,5,1,4,1,2,};
+        crain st = new crain();
+        System.out.println(st.solution(board,moves));
+    }
+
+    public int solution(int[][] board, int[] moves) {
+        int[][] num = new int[board.length][board.length];
+        Stack<Integer> credit = new Stack<Integer>(); // 스택 생성
+        int answer = 0;
+        for(int i=0; i<board.length; i++){                //  가로배열 세로 배열로 재정리
+            for(int j=0; j<board.length; j++){
+                num[i][j]=board[j][i];
+            }
+        }
+        for(int i=0; i<moves.length; i++){
+            for(int j=0; j<board.length; j++){
+               if(num[moves[i]-1][j]!=0) {   // 인덱스의 값이 0이 아닐 경우에
+                   if (credit.isEmpty()) {                      // crdit 스택이 비어있을경우
+                       credit.add(num[moves[i] - 1][j]);      //moves가 가리키는 인덱스 추가
+                       num[moves[i]-1][j]=0;  // 인덱스를 추가하고 원래배열의 해당 인덱스는 0으로
+                       break;
+                   } else { // 스택이 비어있지 않을경우
+                            if(credit.peek()==num[moves[i]-1][j]){ // 스택의 최상위값과 다음 인덱스가 같을시
+                                credit.pop();       // 최상위값 제거
+                                num[moves[i]-1][j]=0;  // peek부분을 제거했으니 다음 해당 num인덱스도 다음검색이되도록 0으로 만들어준다.
+                                answer+=2;  // 없어진 인덱스 2개추가
+                            }
+                            else if(credit.peek()!=num[moves[i]-1][j]){  // 최상위값과 인덱스값이 다를시
+                           credit.add(num[moves[i] - 1][j]); // 인덱스 추가
+                           num[moves[i]-1][j]=0; // num배열 해당인덱스 0으로 바꿈
+                       }
+                            break;
+                         }
+               }
+               }
+        }
+        return answer;
+    }
+}
