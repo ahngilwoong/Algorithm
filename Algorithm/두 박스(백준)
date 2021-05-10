@@ -6,10 +6,14 @@ public class twoBox {
     // NULL = X1>X2   ||    Y1>Y2
     //LINE = X1 == X2 || Y1==Y2
     //FACE = Else
+    int x1;
+    int y1;
+    int x2;
+    int y2;
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Box box1 = new Box();
-        Box box2 = new Box();
+        twoBox box1 = new twoBox();
+        twoBox box2 = new twoBox();
         String a = sc.nextLine();
         String[] sa = a.split(" ");
         box1.x1 = Integer.parseInt(sa[0]);
@@ -23,22 +27,15 @@ public class twoBox {
         box2.x2 = Integer.parseInt(sa2[2]);
         box2.y2 = Integer.parseInt(sa2[3]);
 
-        if((box1.x1 == box2.x2 || box1.y1 == box2.y2) && (box2.x1 == box1.x2|| box2.y1 == box1.y2)){
+        if((box1.x1 == box2.x2 || box2.x1 == box1.x2 ) && (box1.y1 == box2.y2|| box2.y1 == box1.y2)){
             System.out.println("POINT");
-        }else if((box1.x1 == box2.x2 || box1.y1 == box2.y2) || (box2.x1 == box1.x2|| box2.y1 == box1.y2)){
+        }else if((box1.x1 == box2.x2 ||  box2.x1 == box1.x2) || (box1.y1 == box2.y2|| box2.y1 == box1.y2)){
             System.out.println("LINE");
         }else if(box1.x1>box2.x2||box2.x1>box1.x2 || box1.y1>box2.y2 || box2.y1 > box1.y2){
-            System.out.println("NULL");
+            System.out. println("NULL");
         }else{
             System.out.println("FACE");
         }
     }
 
-}
-
-class Box{
-    int x1;
-    int y1;
-    int x2;
-    int y2;
 }
