@@ -1,0 +1,54 @@
+public class bigNum2 {
+
+    public String solution(String number, int k) {
+        StringBuffer sb = new StringBuffer(number);
+        int cnt =0;
+        int pan=0;
+        for(int i=0; i<sb.length(); i++){
+            if(sb.charAt(i)-'0'==sb.charAt(0)-'0'){
+                pan++;
+            }
+        }
+        if(pan==sb.length()){
+            for(int i=0; i<k; i++){
+                sb.deleteCharAt(i);
+            }
+        }else{
+            for(int i=1; i<sb.length(); i++) {
+                if (cnt == k) {
+                    break;
+                }
+                if (sb.charAt(i-1) - '0' < sb.charAt(i) - '0') {
+                    System.out.println("기존 값 : " + sb);
+                    System.out.println(sb.charAt(i-1)+"<"+sb.charAt(i));
+                    System.out.println(sb.charAt(i-1)+"가 삭제되었습니다." +"현재 ="+ sb);
+                    sb.deleteCharAt(i-1);
+                    i--;
+                    cnt++;
+                } else if (sb.charAt(i-1) - '0' > sb.charAt(i) - '0') {
+                    System.out.println("기존 값 : " + sb);
+                    System.out.println(sb.charAt(i-1)+">"+sb.charAt(i));
+                    System.out.println(sb.charAt(i)+"가 삭제되었습니다.");
+                    sb.deleteCharAt(i);
+                    i--;
+                    cnt++;
+                } else if (sb.charAt(i-1) - '0' == sb.charAt(i) - '0') {
+                    pan++;
+                    i++;
+                    continue;
+                }
+            }
+        }
+
+
+
+        String answer = sb.toString();
+        return answer;
+    }
+
+    public static void main(String[] args) {
+        bigNum2 bg = new bigNum2();
+        System.out.println(bg.solution("0001",2));
+        //775841
+    }
+}
