@@ -1,0 +1,29 @@
+import java.util.*;
+
+public class callList {
+
+    public static void main(String[] args) {
+        callList cl = new callList();
+        String[] phone_book = {"123","112456","789"};
+        System.out.println(cl.solution(phone_book));
+//        String a = "Helo";
+//        System.out.println(a.indexOf("He"));
+    }
+    public boolean solution(String[] phone_book) {
+        boolean answer = true;
+        Arrays.sort(phone_book);
+        HashMap<String,String> map = new HashMap<String,String>();
+        for(int i=0;i<phone_book.length;i++){
+            map.put(phone_book[i], phone_book[i]);
+        }
+        for (int i=0;i<phone_book.length-1;i++) {
+            if(map.get(phone_book[i+1]).indexOf(phone_book[i])==0){
+                answer=false;
+                return answer;
+            }
+        }
+        return answer;
+    }
+
+
+}
