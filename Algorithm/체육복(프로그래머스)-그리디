@@ -1,0 +1,90 @@
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class pro {
+    public static void main(String[] args) {
+        pro p = new pro();
+        int n=5;
+        int[] lost = {2,3,5};
+        int[] reserve = {2,4};
+        System.out.println(p.solution(n,lost,reserve));
+    }
+    // 2
+    public int solution(int n, int[] lost, int[] reserve) {
+        int answer = 0;
+        boolean a = true;
+        int cnt = 0;
+        Arrays.sort(lost);
+        Arrays.sort(reserve);
+        ArrayList<Integer> ar1 = new ArrayList<>();
+        ArrayList<Integer> ar2 = new ArrayList<>();
+        ArrayList<Integer> list1 = new ArrayList<>();
+        ArrayList<Integer> list2 = new ArrayList<>();
+        for(int i=0; i<lost.length;i++){ ar1.add(lost[i]); }
+        for(int i=0; i<reserve.length;i++){ ar2.add(reserve[i]); }
+        // 체육복 안 가져온사람이 여벌있는 사람보다 많은경우
+            list1.addAll(ar1);
+            list1.removeAll(ar2);
+            list2.addAll(ar2);
+            list2.removeAll(ar1);
+            int realNum = n-list1.size();
+            if(list1.isEmpty()){
+                return n;
+            }else if(list2.isEmpty()){
+                return n-list1.size();
+            }
+            if(list1.size()>list2.size()){  // lost가 reserve보다 큰경우
+                Iterator<Integer> d1 = list1.iterator();
+                while( d1.hasNext()) {
+                    Integer dd1=d1.next();
+                    Iterator<Integer> d2 = list2.iterator();
+                    while( d2.hasNext()) {
+                        Integer dd2=d2.next();
+                        if(dd1+1==dd2||dd1-1==dd2) {
+                            d2.remove();
+                            d1.remove();
+                            cnt++;
+                            a=false;
+                        }
+                    }
+                }
+            }else if(list1.size()<list2.size()){  //  reserve가 lost보다 큰경우
+                Iterator<Integer> d1 = list2.iterator();
+                while( d1.hasNext()) {
+                    Integer dd1=d1.next();
+                    Iterator<Integer> d2 = list1.iterator();
+                    while( d2.hasNext()) {
+                        Integer dd2=d2.next();
+                        if(dd1==dd2+1||dd1==dd2-1) {
+                            d2.remove();
+                            d1.remove();
+                            cnt++;
+                            a=false;
+                        }
+                    }
+                }
+            }else{ // 같은경우
+                Iterator<Integer> d1 = list1.iterator();
+                while( d1.hasNext()) {
+                    Integer dd1=d1.next();
+                    Iterator<Integer> d2 = list2.iterator();
+                    while( d2.hasNext()) {
+                        Integer dd2=d2.next();
+                        if(dd1+1==dd2||dd1-1==dd2) {
+                            d2.remove();
+                            d1.remove();
+                            cnt++;
+                            a=false;
+                        }
+                    }
+                }
+            }
+        if(a==true) {
+            return n - list1.size();
+        }
+
+        answer = realNum+cnt;
+        return answer;
+    }
+}
