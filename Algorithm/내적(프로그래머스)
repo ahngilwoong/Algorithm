@@ -1,0 +1,27 @@
+public class naejuk {
+    public static void main(String[] args) {
+
+        int[] a={1,2,3,4};
+        int[] b={-3,-1,0,2};
+        naejuk in = new naejuk();
+        System.out.println(in.solution(a,b));
+
+    }
+
+    public int solution(int[] a, int[] b) {
+        int answer = 1234567890;
+        int sum = 0;
+        int [] al = new int[a.length];
+        for(int i=0; i<a.length;i++){
+                al[i] = a[i]*b[i];
+        }
+        for (int i=0; i<al.length;i++){
+            sum = sum+al[i];
+        }
+
+
+        answer = sum;
+        return answer;
+    }
+
+}
