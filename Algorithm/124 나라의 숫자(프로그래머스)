@@ -1,0 +1,86 @@
+/*
+   1 2 4 진법을 구현하는 알고리즘
+   
+   10진법 1 , 2 , 3 은 문제 규칙에 따라 1, 2, 4를 리턴하게 하였고 
+   10진법 4는 11을 리턴한다.
+   10진법 4, 13, 40, 121, 364 ~~ 는 124 진법의 자리수가 증가 하게 되는 숫자 (ex. 4 = > 11 | 13 = > 111 | 40 = > 1111 | 121 = > 11111)
+   자릿수가 증가한 전의 숫자 X 3 + 1을 하게 되면 다음 자릿수가 증가할 숫자가 나옴. (ex 4 X 3 + 1  = 13 // 13 X 3 + 1 = 40)
+   
+   아래 코드의 핵심은 무한반복을 통해 입력받은 N값에 -3을 반복하며 반복한 횟수를 Count를 해주고 
+   N이 1 2 4 진법의 최대 숫자인 4보다 작아지면 break하도록 한다. 위 반복문안의 3이란 숫자는 모두 if문을 통해 4로 변경하게 한다.
+   그러면 N값은 4보다 작은 숫자 1, 2, 4 셋중에 하나만 나올 것이고, 10진법 숫자 12 까지는 아무 문제 없이 리턴된다.
+   10진법 숫자 13부터는 124진법으로 111이 되야하는데 위의 설명까지의 코드만으로는 51이 return된다. 
+   여기서 5와 1을 분리하여 5에 1을뺀 4를 다시 위의 무한반복에 재귀함수로 넣게 되고 4가 위의 방법대로 하면 11이된다.
+   11에 아까 분리하였던 문제없던 꼬리 1을 붙이면 111으로 리턴시킨다. 
+   즉 앞 숫자가 1, 2, 4가 아닐시(4보다 클때) 해당 숫자를 분리하여 12까지는 아무 문제 없이 작동되는 무한반복에 넣어 해당 값을 추출하고 
+   4보다 큰 숫자를 대체하게 하여 값을 리턴한다.
+   
+   정확도 통과
+   효율성 문제로 실패
+*/
+public class onetwofour {
+    public static void main(String[] args){
+        onetwofour otf = new onetwofour();
+        StringBuffer sb = new StringBuffer();
+        System.out.println(otf.solution(500000000));
+    }
+    
+    public String solution(int n) {
+        onetwofour otf = new onetwofour();
+        StringBuilder sb = new StringBuilder();
+        String god = "";
+        long num = n;
+        long cnt = 0;
+        int a = 0;
+        if(num<4){
+            switch (n){
+                case 0:
+                    god = "0";
+                    return god;
+                case 1:
+                    god = "1";
+                    return god;
+                case 2:
+                    god = "2";
+                    return god;
+                case 3:
+                    god = "4";
+                    return god;
+            }
+        }else{
+            while(true){
+                num=num-3;
+                cnt++;
+                if(cnt == 3) {
+                    cnt = 4;
+                }
+                if(num<4){
+                    break;
+                }
+            }
+            if(num == 3){
+                num = 4;
+            }
+        }
+        sb.append(cnt);
+        sb.append(num);
+        god = Long.toString(cnt) + Long.toString(num);
+        System.out.println(god);
+        if(Integer.parseInt(sb.substring(0,sb.length()-1))>=5){
+            if(god.length()>=3){
+                a = Integer.parseInt(sb.substring(0,sb.length()-1));
+            }else{
+                a = Integer.parseInt(Character.toString(sb.charAt(0)));
+            }
+            int b = Integer.parseInt(Character.toString(sb.charAt(sb.length()-1)));
+            num = Long.parseLong(otf.solution(a-1));
+            sb.setLength(0);
+            sb.append(num);
+            sb.append(b);
+        }
+        god = sb.toString();
+        return god;
+    }
+    }
+
+
