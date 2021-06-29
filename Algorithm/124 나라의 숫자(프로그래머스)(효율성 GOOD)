@@ -1,0 +1,86 @@
+/*
+    밑의 효율성 ZERO 알고리즘은 5억의 숫자가 INPUT되도 5억부터 break가 되기위한 4가되기까지 -3을 계속 돌아야해서 너무 효율이 안좋았다.
+    그래서 밑 알고리즘은 인풋된 숫자를 3으로 나눈값 , 나눈 나머지 값을 FIRST WORD, LAST WORD 두 변수로 나누어 저장한 뒤
+    똑같이 재귀법으로 fWord 숫자만 진법 분해 해주어 풀었다. 
+    훨씬 효율이 좋고 프로그래머스 효율성 테스트 통과하였다.
+    First Word = fWord 가 long이 되야하는 이유는 int로하면 분해했을때 121211241414142122이런경우가있는데 int의 범위를 아득히 넘어서 
+    NumberFormatException이 발생한다. 그래서 long으로 해주어야 한다.
+    Double은 뒤에 .0이 붙어서 String으로 변환하여 더해주는 알고리즘에서는 안좋다.
+*/
+
+
+
+public class oneTwo {
+    public static void main(String[] args) {
+
+        oneTwo ot = new oneTwo();
+        System.out.println(ot.solution(1093));
+    }
+
+    public String solution(int n) {
+        oneTwo ot = new oneTwo();
+        String answer = "";
+        long fWord = 0;
+        long lWord = 0;
+        if(n<4){
+            switch (n) {
+                case 0:
+                    return "0";
+                case 1:
+                    return "1";
+                case 2:
+                    return "2";
+                case 3:
+                    return "4";
+            }
+        }
+        if(n%3==0){
+            fWord = n/3 - 1;
+            if(fWord == 3){
+                fWord = 4;
+            }
+            lWord = 4;
+        }else{
+            System.out.println("");
+                fWord = n/3;
+                if(fWord == 3){
+                    fWord = 4;
+                }
+                lWord = n%3;
+                if(lWord == 3){
+                    lWord = 4;
+                }
+
+        }
+        System.out.println(fWord);
+        answer = Long.toString(fWord) + Long.toString(lWord);
+
+        if(n>=13){
+            fWord = Long.parseLong(ot.solution((int)fWord));
+        }
+        answer = Long.toString(fWord) + Long.toString(lWord);
+
+        return answer;
+    }
+}
+
+
+
+
+//        if(n/3>=4){
+//            if(n%3==0){
+//                fWord = n/3 - 1;
+//                if(fWord == 3){
+//                    fWord = 4;
+//                }
+//                lWord = 4;
+//            }else{
+//                fWord = n/3;
+//                lWord = n%3;
+//                if(lWord == 3){
+//                    lWord = 4;
+//                }
+//            }
+//            System.out.println(fWord);
+//            answer = ot.solution((int)fWord) + lWord;
+//        }
