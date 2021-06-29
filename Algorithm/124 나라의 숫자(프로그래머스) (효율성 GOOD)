@@ -52,7 +52,6 @@ public class oneTwo {
                 }
 
         }
-        System.out.println(fWord);
         answer = Long.toString(fWord) + Long.toString(lWord);
 
         if(n>=13){
@@ -81,6 +80,5 @@ public class oneTwo {
 //                    lWord = 4;
 //                }
 //            }
-//            System.out.println(fWord);
 //            answer = ot.solution((int)fWord) + lWord;
 //        }
