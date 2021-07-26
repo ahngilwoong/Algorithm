@@ -1,0 +1,15 @@
+class Solution {
+    public String solution(String s) {
+        String answer = "";
+
+        double num = s.length();
+        if(num%2==1){
+            num = Math.ceil(num/2);
+            answer = Character.toString(s.charAt((int)num-1));
+        }else{
+            answer = s.substring(((int)num/2)-1,(int)num/2+1);
+        }
+
+        return answer;
+    }
+}
