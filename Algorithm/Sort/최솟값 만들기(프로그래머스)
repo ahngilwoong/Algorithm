@@ -1,0 +1,36 @@
+/* 
+
+주어진 수로 두 배열의 인덱스를 곱해 최솟값 만들기
+
+1. A배열과 B배열을 정렬한다.
+2. A를 뒤부터 어레이 리스트에 추가해준다.
+3. 각 인덱스 끼리 곱하면 최솟값이 나온다.
+
+*/
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class exam1 {
+    public static void main(String[] args) {
+        exam1 ex = new exam1();
+        int[] A = {1,4,2};
+        int[] B = {5,4,4};
+        System.out.println(ex.solution(A,B));
+    }
+    public int solution(int []A, int []B)
+    {
+        ArrayList<Integer> ar = new ArrayList<>();
+        int answer = 0;
+        Arrays.sort(A);
+        Arrays.sort(B);
+        for(int i=A.length-1; i>=0; i--){
+            ar.add(A[i]);
+        }
+        for(int i=0; i<ar.size();i++){
+            answer += ar.get(i)*B[i];
+        }
+
+        return answer;
+    }
+}
