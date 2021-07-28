@@ -1,0 +1,20 @@
+// Programmers Level 2
+
+import java.util.Arrays;
+
+public class maxAndMin {
+    public static void main(String[] args) {
+        maxAndMin mm = new maxAndMin();
+        String s = "1 2 3 4";
+        System.out.println(mm.solution(s));
+
+    }
+    public String solution(String s) {
+        String answer = "";
+        String[] sp = s.split(" "); // 공백을 기준으로 문자열 배열 sp에 하나씩 저장
+        int[] compare = Arrays.asList(sp).stream().mapToInt(Integer::parseInt).toArray(); // 문자열 배열을 정수형 배열로 변환
+        Arrays.sort(compare); // 정수형 배열 compare을 정렬
+        answer = compare[0] + " " + compare[compare.length-1]; // 첫번째 인덱스와 마지막 인덱스를 answer에 넣기
+        return answer;
+    }
+}
