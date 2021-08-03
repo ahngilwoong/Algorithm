@@ -1,0 +1,37 @@
+/*
+Test Case : baabaa => return 1;
+Test Case : cdcd => return 0;
+문자열에서 연속된 알파벳이 있으면 제거하고
+남은 알파벳이 있다면 0을 return하고 없다면 1을 return하는 문제.
+
+1. 문자열 길이가 100만이라 중첩 반복문을 쓰면 효율성이 안좋다.
+2. 그래서 Stack을 사용하였고 문자열을 하나씩 꺼내며 비어있다면 Stack에 Push하고 다음 글자와 비교 후 같으면 pop 같지 않으면 Push한다.
+3. 스택에 인덱스가 있으면 문자열 중 짝이 없던 알파벳이 있기때문에 0을 return 아니면 1을 return 한다.
+4. size를 확인하여 return헀고 처음에 return st.isEmpry?1:0을 하니 효율성에러도 아닌 알고리즘 풀이를 하며 처음 보는 프로그래머스 내부적 오류가 있다고 떴다.
+*/
+
+import java.util.Stack;
+class Solution
+{
+       public int solution(String s)
+    {
+        int answer = 0;
+        Stack<Character> st  =new Stack<>();
+        for(int i=0; i<s.length(); i++){
+            if(st.isEmpty()){
+                st.push(s.charAt(i));
+            }else{
+                if(st.peek()==s.charAt(i)){
+                    st.pop();
+                }else{
+                    st.push(s.charAt(i));
+                }
+            }
+        }
+        if(st.size()>0){
+            return 0;
+        }else{
+            return 1;
+        }
+    }
+}
