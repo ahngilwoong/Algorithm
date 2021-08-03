@@ -1,0 +1,77 @@
+/*
+
+Test Case :
+progresses	              speeds	            return
+[93, 30, 55]	            [1, 30, 5]	        [2, 1]
+[95, 90, 99, 99, 80, 99]	[1, 1, 1, 1, 1, 1]	[1, 3, 2]
+
+문제에서 주어진 Progresses는 현재 개발 완료 100퍼센트 까지의 진도율%, Speeds는 하루에 작업 가능한 % 이다.
+첫 번째 테스트 케이스 Progresses의 첫 번째 인덱스의 진도율을 보면 100%까지 하루에 1%씩 Speeds를 보면 7일 뒤에 기능 배포가 가능하다.
+두 번째 인덱스는 3일 뒤에 배포 가능하고 세 번쩨 인덱스는 9일 뒤에 가능하다.
+여기서 두 번째 인덱스가 3일이라 제일 빨리 완성이 되어도 앞선 첫 번째 인덱스가 완성되어 배포되기 전까지는 먼저 배포 될 수 없다.
+그래서 7일째 되는 날 2개의 기능이 배포되고 9일째 되는 날 1개의 기능이 배포된다.
+즉 return값은 배포되는 기능의 개수들을 나열 한 것이다.
+
+아래 알고리즘은 progeress의 길이만큼 도는 반복문에
+(100-progresses[i]) / speeds[i]로 완성 완료되는 날짜를 구하였다.
+딱 안 떨어지는 수 예를 들어 30퍼가 완료되었는데 하루에 30퍼씩 진도를 나가면 당연히 2일차에 90퍼이고 3일차에 100퍼가 될 것이다.
+이는 위의 공식에 Math.ceil으로 올림을 해주어 처리하였다. 그 후 각 기능별 완료 날짜들을 comp배열에 넣었고
+선입선출의 특징을 가진 Queue를 이용하여 큐가 비어있다면 comp[i] 인덱스를 Queue에 넣어주고 카운트를 센다. 
+비어있지 않다면 큐의 맨 앞의 값과 comp[i]의 인덱스를 비교하여 날짜의 크기를 비교 해주고 
+큐의 맨 앞의 값이 같거나 크다면 앞선 인덱스의 기능 개발 완료 날짜가 더욱 길다는 의미이기 때문에 기능 개발 완료된 카운트만 세주고 넘어간다.
+큐의 맨 앞의 값이 비교 대상인 comp[i]보다 작다면 큐에 저장된 값을 삭제해주고, 이때까지 셋던 카운트를 리스트에 추가해주고 초기화한다.
+그 뒤 비교대상이었던 값을 큐에 넣어주고 다시 비교를 시작한다. 그러고 맨 마지막 인덱스 값이 되면 카운트를 리스트를 추가해주고 종료해준다.
+
+
+*/
+
+
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class functionDevelop {
+    public static void main(String[] args) {
+        functionDevelop fd = new functionDevelop();
+        int[] progresses  = {95, 90, 99, 99, 80, 99};
+        int[] speeds = {1, 1, 1, 1, 1, 1};
+        System.out.println(fd.solution(progresses,speeds));
+    }
+    public int[] solution(int[] progresses, int[] speeds) {
+        ArrayList<Integer> ar = new ArrayList<>();
+        Queue<Integer> q = new LinkedList<>();
+        int[] answer = {};
+        int[] comp = new int[progresses.length];
+        int cnt = 0;
+        for (int i = 0; i < comp.length; i++) {
+            double ceil = (double) (100-progresses[i]) / speeds[i];
+            comp[i] = (int)Math.ceil(ceil);
+            if(q.isEmpty()){
+                q.add(comp[i]);
+                cnt++;
+            }else{
+                if(q.peek()>=comp[i]){
+                    cnt++;
+                    if(i==comp.length-1){
+                        ar.add(cnt);
+                    }
+                }else{
+                    q.poll();
+                    ar.add(cnt);
+                    cnt = 0;
+                    q.add(comp[i]);
+                    cnt++;
+                    if(i==comp.length-1){
+                        ar.add(cnt);
+                    }
+                }
+            }
+        }
+
+
+        answer = ar.stream().mapToInt(Integer::intValue).toArray();
+        return answer;
+    }
+
+}
