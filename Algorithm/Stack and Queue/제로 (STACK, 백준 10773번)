@@ -1,0 +1,57 @@
+/*
+
+Test Case.  return
+10          7
+1
+3
+5
+4
+0
+0
+7
+0
+0
+6
+
+전형적인 스택 문제.
+버퍼리더를 이용해 위의 인풋값을 받아주고 배열의 크기를 정한 다음
+인풋값이 0이면 pop을 이용해 제거를 해주고 아니라면 0이 아닌 해당 값을 스택에 넣어준다.
+그 뒤 스택이 비어있다면 0을 리턴하고 아니라면 스택의 합계를 구해준다.
+
+
+*/
+
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+public class stack {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Stack<Integer> st = new Stack<>();
+        int size = Integer.parseInt(br.readLine());
+        int[] comp = new int[size];
+        int sum = 0;
+        for(int i=0; i<comp.length; i++){
+            comp[i]= Integer.parseInt(br.readLine());
+            if(comp[i]==0){
+                st.pop();
+            }else{
+                st.push(comp[i]);
+            }
+        }
+
+        if(st.isEmpty()){
+            System.out.println(0);
+        }else{
+            while (!st.isEmpty()){
+                sum+= st.peek();
+                st.pop();
+            }
+            System.out.println(sum);
+        }
+    }
+}
