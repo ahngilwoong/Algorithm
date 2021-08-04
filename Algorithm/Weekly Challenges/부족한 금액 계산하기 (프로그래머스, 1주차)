@@ -1,0 +1,29 @@
+/* 
+
+프로그래머스에서 진행하는 위클리 챌린지 1주차
+놀이기구 가격 부족한 값 리턴.
+
+/*
+
+public class price {
+
+    public static void main(String[] args) {
+        price p = new price();
+        System.out.println(p.solution(3,20,4));
+    }
+
+    public long solution(int price, int money, int count) {
+        long answer = -1;
+        long sum = 0;
+        int num = price;
+        for (int i = 0; i < count; i++) {
+            sum +=price;
+            price+=num;
+        }
+        if(sum<=money){
+            return 0;
+        }
+        answer = sum - money;
+        return answer;
+    }
+}
