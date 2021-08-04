@@ -1,0 +1,97 @@
+/*
+
+TestCase :
+
+So when I die (the [first] I will see in (heaven) is a score list).
+[ first in ] ( first out ).
+Half Moon tonight (At least it is better than no Moon at all].
+A rope may form )( a trail in a maze.
+Help( I[m being held prisoner in a fortune cookie factory)].
+([ (([( [ ] ) ( ) (( ))] )) ]).
+ .
+.
+
+Return :
+
+yes
+yes
+no
+no
+no
+yes
+yes
+
+
+
+입력을 어떻게 받으란건지 헷갈렸는데 문제를 제대로 안 읽은 죄였다. 종료 조건으로 .이 들어오면 입력을 그만 받는 것이였다.
+괄호 검사 문제인데 (,[,),] 의 괄호 들이 문자열 안에 있고 올바른 괄호를 쓴 문장인지 확인하는 문제이다.
+
+주의할 점은 (] or [)는 잘못된 괄호이다.
+먼저 문자열을 받고 (,[,),]가 아닌 문자는 전부 continue 시켰다.
+스택이 비어있는 상태면 괄호를 받게 되고 받게된(stack push) 괄호가 닫는 괄호이면 잘못된 괄호이기 때문에 no를 리턴한다.
+즉 열려있는 괄호만 스택이 비어있는 상태에서 받게되고, 그 후 순차적으로 확인하다가 중괄호 소괄호에 맞는 닫는 괄호가 들어오면 스택을 pop시킨다.
+그렇게 되면 올바른 괄호식을 쓴 문자열은 스택이 비어있을 것이고 아닌 문자열은 pop되지 못한 괄호가 스택에 쌓여있을 것이다.
+그래서 스택이 비어있으면 yes를 리턴 아니면 no를 리턴한다.
+그 후 버퍼리더를 사용하여 .이 나올때까지 TestCase 문자열들을 검사하고 .이 되면 종료한다.
+
+
+*/
+
+
+
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+public class balanceWorld {
+    public static void main(String[] args) throws IOException {
+        balanceWorld bw = new balanceWorld();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s;
+        while (true){
+            s = br.readLine();
+            if(s.equals(".")){
+                break;
+            }
+            System.out.println(bw.compare(s));
+        }
+
+    }
+    public String compare(String s){
+        Stack<String> st = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            String comp = Character.toString(s.charAt(i));
+            if(comp.equals("(") || comp.equals(")") || comp.equals("[") || comp.equals("]")){
+                if(st.isEmpty()){
+                    if(comp.equals(")") || comp.equals("]")){
+                        return "no";
+                    }else{
+                        st.push(comp);
+                    }
+                }else{
+                    if(comp.equals(")") || comp.equals("]")){
+                        if(st.peek().equals("[") && comp.equals(")")){
+                            return "no";
+                        }else if(st.peek().equals("(") && comp.equals("]")){
+                            return "no";
+                        }else{
+                            st.pop();
+                        }
+                    }else{
+                        st.push(comp);
+                    }
+                }
+            }else{
+                continue;
+            }
+        }
+        if(st.isEmpty()){
+            return "yes";
+        }else{
+            return "no";
+        }
+    }
+}
