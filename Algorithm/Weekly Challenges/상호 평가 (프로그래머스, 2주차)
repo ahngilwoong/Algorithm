@@ -1,0 +1,88 @@
+/*
+
+위클리 챌린지 2주차
+
+No.	0	1	2	3	4
+0	100	90	98	88	65
+1	50	45	99	85	77
+2	47	88	95	80	67
+3	61	57	100	80	65
+4	24	90	94	75	65
+평균	45.5	81.25	97.2	81.6	67.8
+학점	F	B	A	B	D
+
+평균을 구하고 학점을 내는 알고리즘
+학생들이 4명의 학생들 자기자신과 다른 학생을 평가한 성적표
+본인이 평가한것이 최고점이거나 최저점이면 제외하고 평균에 제외하고 계산한다.
+
+일단 2차원 배열로 0번째~4번째 학생이 받은 점수를 ansArray에 저장하였다.
+그 후  그 학생에 대한 점수들중 max값과 min값을 구했고
+그 뒤 중복이 있는지 체크하기위해 최대값을 가진 점수가 몇개인지 카운트하고 최솟값도 카운트하였다.
+그 후 카운트 개수가 1개이고 i==j가 같은 최대값 점수를 제외시키고 나눌값을 -1씩 해주었다.
+카운트 개수가 1개란 의미는 유일한 최대 또는 최솟값이란 의미이다.
+
+
+
+*/
+    
+    
+    public String solution(int[][] scores) {
+        String answer = "";
+        int[][] ansArray = new int[scores.length][scores.length];
+        for (int i = 0; i < scores.length; i++) {
+            int sum = 0;
+            int div = scores.length;
+            int max = 0;
+            int min = 101;
+            double avg = 0.0;
+            int maxCnt = 0;
+            int minCnt = 0;
+            boolean flag = false;
+            for (int j = 0; j < scores[i].length; j++) {
+                ansArray[i][j] = scores[j][i];
+                if(max<ansArray[i][j]){
+                    max = ansArray[i][j];
+                }
+                if(min>ansArray[i][j]){
+                    min = ansArray[i][j];
+                }
+            }
+            for (int j = 0; j < scores[i].length; j++) {
+                if(min==ansArray[i][j]){
+                    minCnt++;
+                }
+                if(max==ansArray[i][j]){
+                    maxCnt++;
+                }
+            }
+            for (int j = 0; j < scores[i].length; j++) {
+                if(i==j&&minCnt==1&&min==ansArray[i][j]){
+                    div--;
+                    continue;
+                }
+                if(i==j&&maxCnt==1&&max==ansArray[i][j]){
+                    div--;
+                    continue;
+                }
+//                System.out.println("min"+minCnt+"max"+maxCnt);
+                sum += ansArray[i][j];
+            }
+            avg = (double) sum/div;
+//            System.out.println("sum"+sum);
+//            System.out.println("avg"+avg);
+            if(avg>=90){
+                answer+="A";
+            }else if(avg>=80){
+                answer+="B";
+            }else if(avg>=70){
+                answer+="C";
+            }else if(avg>=50){
+                answer+="D";
+            }else{
+                answer+="F";
+            }
+        }
+
+        return answer;
+    }
+}
