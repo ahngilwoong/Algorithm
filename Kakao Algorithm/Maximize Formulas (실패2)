@@ -1,0 +1,145 @@
+// 오늘도 결국 못조졌다.... 나중에 꼭 조진다..
+
+import java.util.ArrayList;
+
+public class bigger {
+    public static void main(String[] args) {
+        bigger bg = new bigger();
+        String expression = "100-200*300-500+20";
+        System.out.println(bg.solution(expression));
+    }
+    // "*+-","+*-","+-*","-+*","-*+","*-+"
+    public long solution(String expression) {
+        long answer = 0;
+        ArrayList<Integer> comp = new ArrayList<>();
+        String[] cal = {"*+-","+*-","+-*","-+*","-*+","*-+"};
+        String str = expression;
+
+            expression = str;
+            expression = flag(cal[3].charAt(0),expression);
+            System.out.println(expression);
+            expression = flag(cal[3].charAt(1),expression);
+            System.out.println(expression);
+            expression = flag(cal[3].charAt(2),expression);
+            System.out.println(expression);
+
+
+        return answer;
+    }
+    public static String flag(char a, String expression) {
+        String answer = "";
+        ArrayList<Character> ar = new ArrayList<>();
+        ArrayList<Integer> ar2 = new ArrayList<>();
+        String str = "";
+        boolean checked = true;
+        for (int i = 0; i < expression.length(); i++) {
+            if(i>0){
+                if(expression.charAt(i)=='-' && expression.charAt(i-1)=='*'){
+                    checked = false;
+                }
+            }
+            if(expression.charAt(i)=='*' || expression.charAt(i)=='+' || expression.charAt(i)=='-'){
+                ar.add(expression.charAt(i));
+                if(str.equals("")){
+                    continue;
+                }
+                ar2.add(Integer.parseInt(str));
+
+                str = "";
+            }else{
+                str+=expression.charAt(i);
+                if(i==expression.length()-1){
+                    ar2.add(Integer.parseInt(str));
+                }
+            }
+        }
+
+        System.out.println(ar);
+        System.out.println(ar2);
+
+
+        if(ar.contains(a)==false){
+            return expression;
+        }
+
+        int i = 0;
+        while (true){
+            if(i==ar.size()){
+                break;
+            }
+            if(ar.get(i)==a){
+                if(a=='*'){
+                    if(checked==false && ar.get(i-1) == '-'){
+                        int z = ar2.get(i-1) * ar2.get(i);
+                        ar.remove(i-1);
+                        ar.remove(i-1);
+                        ar.remove(i-1);
+                        ar2.remove(i-1);
+                        ar2.remove(i-1);
+                        ar2.add(i-1,z);
+                        i--;
+                    }else{
+                        int z = ar2.get(i) * ar2.get(i+1);
+                        ar.remove(i);
+                        ar2.remove(i);
+                        ar2.remove(i);
+                        ar2.add(i,z);
+                        i--;
+                    }
+
+                }else if(a=='-'){
+                    int z = ar2.get(i) - ar2.get(i+1);
+                    ar.remove(i);
+                    ar2.remove(i);
+                    ar2.remove(i);
+                    ar2.add(i,z);
+                    i--;
+                }else{
+                    int z = ar2.get(i) + ar2.get(i+1);
+                    ar.remove(i);
+                    ar2.remove(i);
+                    ar2.remove(i);
+                    ar2.add(i,z);
+                    i--;
+                }
+            }
+            i++;
+        }
+        for (int j = 0; j < ar2.size(); j++){
+            if(j==ar2.size()-1){
+                answer+=ar2.get(j);
+                break;
+            }
+            answer+= ar2.get(j)+Character.toString(ar.get(j));
+        }
+        return answer;
+    }
+}
+
+
+
+
+/*
+            for (int j = 0; j < ar.size(); j++) {
+                if(cal[i]==ar.get(j)){
+                    if(ar.get(j).equals("*")){
+                        String a = Integer.toString(Integer.parseInt(ar.get(j-1))*Integer.parseInt(ar.get(j+1)));
+                        ar.remove(j-1);
+                        ar.remove(j);
+                        ar.remove(j+1);
+                        ar.add(j-1,a);
+                    }else if(ar.get(j).equals("+")){
+                        String a = Integer.toString(Integer.parseInt(ar.get(j-1))+Integer.parseInt(ar.get(j+1)));
+                        ar.remove(j-1);
+                        ar.remove(j);
+                        ar.remove(j+1);
+                        ar.add(j-1,a);
+                    }else{
+                        String a = Integer.toString(Integer.parseInt(ar.get(j-1))-Integer.parseInt(ar.get(j+1)));
+                        ar.remove(j-1);
+                        ar.remove(j);
+                        ar.remove(j+1);
+                        ar.add(j-1,a);
+                    }
+                }
+ */
