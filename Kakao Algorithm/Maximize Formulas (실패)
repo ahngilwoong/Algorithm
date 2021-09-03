@@ -1,0 +1,132 @@
+// 너무나 어렵다 나중에 꼭 조진다.
+
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class bigger {
+    public static void main(String[] args) {
+        bigger bg = new bigger();
+        String expression = "100*60520";
+        System.out.println(bg.solution(expression));
+    }
+
+    public long solution(String expression) {
+        long answer = 0;
+        String[] cal = {"*","+","-","+","*","-","+","-","*","-","+","*","-","*","+","*","-","+"};
+        ArrayList<String> ar = new ArrayList<>();
+        ArrayList<Integer> ans = new ArrayList<>();
+        Queue<String> q = new LinkedList<>();
+        String str = "";
+
+        for (int i = 0; i < expression.length(); i++) {
+            if(expression.charAt(i)=='-'||expression.charAt(i)=='+'||expression.charAt(i)=='*'){
+                ar.add(str);
+                ar.add(Character.toString(expression.charAt(i)));
+                str = "";
+                continue;
+            }
+            str+= expression.charAt(i);
+            if(i==expression.length()-1){
+                ar.add(str);
+            }
+        }
+
+        for (int i = 0; i < ar.size(); i++) {
+            System.out.println(ar.get(i));
+        }
+
+        for (int i = 0; i < cal.length; i++) {
+            q.add(cal[i]);
+        }
+
+        while (!q.isEmpty()) {
+            String flag = q.peek();
+            int cnt = 0;
+            int div = 0;
+
+            if(ar.size()<=2){
+                while (div%3==0){
+                    q.poll();
+                    continue;
+                }
+            }else{
+                for (int j = 0; j < ar.size(); j++) {
+                    if (flag.equals(ar.get(j))) {
+                        if (ar.get(j).equals("*")) {
+                            String a = Integer.toString(Integer.parseInt(ar.get(j - 1)) * Integer.parseInt(ar.get(j + 1)));
+                            ar.remove(j - 1);
+                            ar.remove(j);
+                            ar.remove(j + 1);
+                            ar.add(j - 1, a);
+                            cnt++;
+                        } else if (ar.get(j).equals("+")) {
+                            String a = Integer.toString(Integer.parseInt(ar.get(j - 1)) + Integer.parseInt(ar.get(j + 1)));
+                            ar.remove(j - 1);
+                            ar.remove(j);
+                            ar.remove(j + 1);
+                            ar.add(j - 1, a);
+                            cnt++;
+                        } else {
+                            String a = Integer.toString(Integer.parseInt(ar.get(j - 1)) - Integer.parseInt(ar.get(j + 1)));
+                            ar.remove(j - 1);
+                            ar.remove(j);
+                            ar.remove(j + 1);
+                            ar.add(j - 1, a);
+                            cnt++;
+                        }
+                    }
+                }
+            }
+            if(cnt == 0){
+                q.poll();
+                div++;
+            }
+            cnt = 0;
+            if(div%3==0){
+                ans.add(Integer.parseInt(ar.get(0)));
+            }
+        }
+
+        for (int i = 0; i < ans.size(); i++) {
+            System.out.println(ans.get(i));
+        }
+
+
+
+
+
+
+
+
+
+
+
+        return answer;
+    }
+}
+/*
+            for (int j = 0; j < ar.size(); j++) {
+                if(cal[i]==ar.get(j)){
+                    if(ar.get(j).equals("*")){
+                        String a = Integer.toString(Integer.parseInt(ar.get(j-1))*Integer.parseInt(ar.get(j+1)));
+                        ar.remove(j-1);
+                        ar.remove(j);
+                        ar.remove(j+1);
+                        ar.add(j-1,a);
+                    }else if(ar.get(j).equals("+")){
+                        String a = Integer.toString(Integer.parseInt(ar.get(j-1))+Integer.parseInt(ar.get(j+1)));
+                        ar.remove(j-1);
+                        ar.remove(j);
+                        ar.remove(j+1);
+                        ar.add(j-1,a);
+                    }else{
+                        String a = Integer.toString(Integer.parseInt(ar.get(j-1))-Integer.parseInt(ar.get(j+1)));
+                        ar.remove(j-1);
+                        ar.remove(j);
+                        ar.remove(j+1);
+                        ar.add(j-1,a);
+                    }
+                }
+ */
