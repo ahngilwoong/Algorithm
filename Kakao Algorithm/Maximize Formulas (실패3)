@@ -1,0 +1,130 @@
+/*
+정확성  테스트
+테스트 1 〉	통과 (11.24ms, 64MB)
+테스트 2 〉	통과 (10.53ms, 60.8MB)
+테스트 3 〉	통과 (11.11ms, 57.5MB)
+테스트 4 〉	통과 (11.67ms, 62.5MB)
+테스트 5 〉	실패 (12.08ms, 74.5MB)
+테스트 6 〉	통과 (14.32ms, 60.3MB)
+테스트 7 〉	통과 (13.66ms, 71.7MB)
+테스트 8 〉	통과 (11.46ms, 61.4MB)
+테스트 9 〉	통과 (14.55ms, 71.8MB)
+테스트 10 〉	통과 (14.38ms, 70.3MB)
+테스트 11 〉	통과 (15.13ms, 61.7MB)
+테스트 12 〉	통과 (13.75ms, 62.3MB)
+테스트 13 〉	통과 (14.34ms, 72.3MB)
+테스트 14 〉	통과 (14.16ms, 72.3MB)
+테스트 15 〉	통과 (14.45ms, 61.2MB)
+테스트 16 〉	통과 (10.95ms, 60.2MB)
+테스트 17 〉	통과 (13.64ms, 61.6MB)
+테스트 18 〉	통과 (12.96ms, 71.3MB)
+테스트 19 〉	통과 (12.69ms, 63.3MB)
+테스트 20 〉	통과 (13.56ms, 71MB)
+테스트 21 〉	통과 (22.81ms, 74MB)
+테스트 22 〉	통과 (13.88ms, 75.4MB)
+테스트 23 〉	통과 (14.60ms, 59.4MB)
+테스트 24 〉	통과 (13.16ms, 60.1MB)
+테스트 25 〉	통과 (14.54ms, 71.3MB)
+테스트 26 〉	통과 (11.15ms, 71.5MB)
+테스트 27 〉	통과 (16.53ms, 72.9MB)
+테스트 28 〉	통과 (14.54ms, 78.1MB)
+테스트 29 〉	통과 (12.31ms, 71.5MB)
+테스트 30 〉	통과 (16.37ms, 59.8MB)
+채점 결과
+정확성: 96.7
+합계: 96.7 / 100.0
+
+
+정답률이 0퍼였는데 장족의 발전을 이루었다. 테스트케이스 5번 도저히 모르겠다.
+꼭 조진다..
+
+
+*/
+
+
+
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Solution2 {
+
+    public static void main(String[] args) {
+        Solution2 s = new Solution2();
+        String expression = "0-2-0-2*3+2*2*2*2*2*2*2*2-1-11-1-1-1-1-1-11-1";
+        System.out.println(s.solution(expression));
+    }
+
+    public long solution(String expression) {
+        long answer = 0;
+        ArrayList<String> cl = new ArrayList<>();
+        ArrayList<String> ar = new ArrayList<>();
+        ArrayList<Long> ans = new ArrayList<>();
+        String[] cal = {"-+*","+*-","+-*","-+*","-*+","*-+"};
+        String str = "";
+        for (int i = 0; i < expression.length(); i++) {
+            if(expression.charAt(i)=='*' || expression.charAt(i)=='+' || expression.charAt(i)=='-'){
+                ar.add(str);
+                ar.add(expression.charAt(i)+"");
+                str="";
+            }else{
+                str+=expression.charAt(i);
+                if(i==expression.length()-1){
+                    ar.add(str);
+                }
+            }
+        }
+        cl = (ArrayList<String>) ar.clone();
+
+        for (int i = 0; i < cal.length; i++) {
+            ar = (ArrayList<String>) cl.clone();
+            flag(cal[i].charAt(0),ar);
+            flag(cal[i].charAt(1),ar);
+            flag(cal[i].charAt(2),ar);
+            ans.add(Math.abs(Long.parseLong(ar.get(0))));
+        }
+        System.out.println(ans);
+        answer = Collections.max(ans);
+        return answer;
+    }
+
+    public static ArrayList<String> flag(char a, ArrayList<String> ar) {
+        int i = 0;
+        if(ar.contains(a+"")==false){
+            return ar;
+        }
+        while (true){
+            if(i==ar.size()){
+                break;
+            }
+            if(ar.get(i).equals(a+"")){
+                if(a=='*'){
+                    long z = Long.parseLong(ar.get(i-1)) * Long.parseLong(ar.get(i+1));
+                    ar.remove(i-1);
+                    ar.remove(i-1);
+                    ar.remove(i-1);
+                    ar.add(i-1,Long.toString(z));
+                    i=0;
+                }else if(a=='+'){
+                    long z = Long.parseLong(ar.get(i-1)) + Long.parseLong(ar.get(i+1));
+                    ar.remove(i-1);
+                    ar.remove(i-1);
+                    ar.remove(i-1);
+                    ar.add(i-1,Long.toString(z));
+                    i=0;
+                }else{
+                    long z = Long.parseLong(ar.get(i-1)) - Long.parseLong(ar.get(i+1));
+                    ar.remove(i-1);
+                    ar.remove(i-1);
+                    ar.remove(i-1);
+                    ar.add(i-1,Long.toString(z));
+                    i=0;
+                }
+            }
+            i++;
+        }
+
+        return ar;
+    }
+
+}
