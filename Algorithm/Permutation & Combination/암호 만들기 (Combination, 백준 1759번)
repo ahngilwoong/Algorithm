@@ -1,0 +1,69 @@
+/*
+
+dfs를 이용하여 i개중 n개뽑기 조합의 정석 조합을 이용하여 구현하고
+모음의 개수 자음의 개수를 체크하여 모음 2개 이상 자음 1개 이상인 조합만 리턴하도록 하였다.
+
+*/
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class passwordSolve {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int i = sc.nextInt();
+        int n = sc.nextInt();
+        String[] charStr = new String[n];
+        for (int j = 0; j < charStr.length; j++) {
+            charStr[j] = sc.next();
+        }
+        Arrays.sort(charStr);
+        boolean[] visited = new boolean[n+1];
+            comb(charStr, visited, 0, n, i);
+    }
+
+    static void comb(String[] arr, boolean[] visited, int depth, int n, int r) {
+        int cnt = 0;
+        int cnt2 = 0;
+        if (r == 0) {
+            String str = "";
+            str = print(arr, visited, n);
+            String[] cr = {"a","e","i","o","u"};
+            List<String> ar = Arrays.asList(cr);
+            for (int i = 0; i < str.length(); i++) {
+                if(Arrays.asList(cr).contains(str.charAt(i)+"")){
+                    cnt++;
+                }else{
+                    cnt2++;
+                }
+            }
+            if(cnt!=0){
+                if(cnt2>=2){
+                    System.out.println(str);
+                }
+            }
+            return;
+        }
+
+        if (depth == n) {
+            return;
+        }
+
+        visited[depth] = true;
+        comb(arr, visited, depth + 1, n, r - 1);
+
+        visited[depth] = false;
+        comb(arr, visited, depth + 1, n, r);
+    }
+
+    static String print(String[] arr, boolean[] visited, int n) {
+        String str = "";
+        for (int i = 0; i < n; i++) {
+            if (visited[i]) {
+               str+=arr[i];
+            }
+        }
+        return str;
+    }
+
+}
