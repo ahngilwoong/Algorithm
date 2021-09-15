@@ -1,0 +1,72 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Solution {
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        int[] numbers = {2,5,8,0};
+        String hand = "right";
+        System.out.println(s.solution(numbers,hand));
+    }
+    public String solution(int[] numbers, String hand) {
+        String answer = "";
+        Queue<Integer> q = new LinkedList<>();
+        ArrayList<Integer> left = new ArrayList<>(Arrays.asList(1,4,7));
+        ArrayList<Integer> right = new ArrayList<>(Arrays.asList(3,6,9));
+        for (int i = 0; i < numbers.length; i++) q.add(numbers[i]);
+        int leftPosition = 10;
+        int rightPosition = 12;
+        while (!q.isEmpty()){
+            int firstQ = q.poll();
+
+            if(left.contains(firstQ)){
+                answer+="L";
+                leftPosition = firstQ;
+            }else if(right.contains(firstQ)){
+                answer+="R";
+                rightPosition = firstQ;
+            }else{
+                int lDistance = getDistance(leftPosition,firstQ);
+                int rDistance = getDistance(rightPosition,firstQ);
+                if(lDistance > rDistance){
+                    answer+="R";
+                    rightPosition = firstQ;
+                }else if(lDistance < rDistance){
+                    answer+="L";
+                    leftPosition = firstQ;
+                }else{
+                    if(hand.equals("right")) {
+                        answer+="R";
+                        rightPosition = firstQ;
+                    }else {
+                        answer+="L";
+                        leftPosition = firstQ;
+                    }
+                }
+
+            }
+        }
+
+        return answer;
+    }
+
+    public static int getDistance(int position, int qNum) {
+        if(qNum == 0) {
+            qNum = 11;
+        }
+
+        if(position== 0) {
+            position = 11;
+        }
+
+        int X = (position-1) / 3;
+        int Y = (position-1) % 3;
+
+        int nX = (qNum-1) / 3;
+        int nY = (qNum-1) % 3;
+
+        return Math.abs(X-nX) + Math.abs(Y - nY);
+    }
+}
