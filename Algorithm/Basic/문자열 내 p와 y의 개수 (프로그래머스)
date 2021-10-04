@@ -1,0 +1,19 @@
+
+public class strExam {
+
+    public static void main(String[] args) {
+        strExam s = new strExam();
+        String s2 = "PoooY";
+        System.out.println(s.solution(s2));
+
+    }
+
+    boolean solution(String s) {
+        s = s.toLowerCase();
+        int pNum = s.length()-s.replaceAll("p","").length();
+        int yNum = s.length()-s.replaceAll("y","").length();
+        if(pNum==0&&yNum==0) return true;
+        if(pNum==yNum) return true;
+        else return false;
+    }
+}
