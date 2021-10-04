@@ -1,0 +1,14 @@
+import java.util.Arrays;
+
+public class avgExam {
+
+    public static void main(String[] args) {
+        avgExam a = new avgExam();
+        int[] arr=  {1,2,3,4};
+        System.out.println(a.solution(arr));
+    }
+    public double solution(int[] arr) {
+        int sum = Arrays.stream(arr).sum();
+        return (double) sum/arr.length;
+    }
+}
