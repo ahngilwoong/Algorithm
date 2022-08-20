@@ -1,0 +1,50 @@
+
+
+
+
+
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Main main = new Main();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        final String gameLog = bufferedReader.readLine();
+        System.out.println(main.badmintonWinner(gameLog));
+    }
+
+
+    public String badmintonWinner(String gameLog){
+        StringBuilder answer = new StringBuilder();
+
+        int a = 0;
+        int b = 0;
+        int winA = 0;
+        int winB = 0;
+        int size = gameLog.length();
+
+        for (int i = 0; i < size; i++) {
+            char tempCharacter = gameLog.charAt(i);
+            if(tempCharacter=='A'){
+                a++;
+            }else if(tempCharacter=='B'){
+                b++;
+            }
+            if (a == 21){
+                winA++;
+                answer.append(a+"-"+b+"\n");
+                a = 0;
+                b = 0;
+            }else if (b == 21){
+                winB++;
+                answer.append(a+"-"+b+"\n");
+                a = 0;
+                b = 0;
+            }
+        }
+        answer.append(winA>winB?'A':'B');
+        return answer.toString();
+    }
+}
