@@ -1,0 +1,53 @@
+/*
+
+문제
+김진영이 듣도 못한 사람의 명단과, 보도 못한 사람의 명단이 주어질 때, 듣도 보도 못한 사람의 명단을 구하는 프로그램을 작성하시오.
+
+입력
+첫째 줄에 듣도 못한 사람의 수 N, 보도 못한 사람의 수 M이 주어진다. 이어서 둘째 줄부터 N개의 줄에 걸쳐 듣도 못한 사람의 이름과, N+2째 줄부터 보도 못한 사람의 이름이 순서대로 주어진다. 이름은 띄어쓰기 없이 알파벳 소문자로만 이루어지며, 그 길이는 20 이하이다. N, M은 500,000 이하의 자연수이다.
+
+듣도 못한 사람의 명단에는 중복되는 이름이 없으며, 보도 못한 사람의 명단도 마찬가지이다.
+
+출력
+듣보잡의 수와 그 명단을 사전순으로 출력한다.
+
+*/
+
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+
+    public static void main(String[] args) throws IOException {
+        Main mainObj = new Main();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        Map<String,String> dontSeeThat = new HashMap<>(500001);
+        StringBuilder answer = new StringBuilder();
+        String[] inputNum = bufferedReader.readLine().split(" ");
+        List<String> distinctDregs = new ArrayList<>(500001);
+        int cnt = 0;
+        int noSeeSize = Integer.parseInt(inputNum[0]);
+        int noListenSize = Integer.parseInt(inputNum[1]);
+
+        for (int i = 0; i < noSeeSize; i++) {
+            String input = bufferedReader.readLine();
+            dontSeeThat.put(input,input);
+        }
+
+        for (int i = 0; i < noListenSize; i++) {
+            String input = bufferedReader.readLine();
+            if(Objects.equals(dontSeeThat.get(input),input)){
+                cnt++;
+                distinctDregs.add(input);
+            }
+        }
+        Collections.sort(distinctDregs);
+        int size = distinctDregs.size();
+        for (int i = 0; i < size; i++) {
+            answer.append(distinctDregs.get(i)).append("\n");
+        }
+        System.out.println(cnt+"\n"+answer.toString().trim());
+    }
+}
