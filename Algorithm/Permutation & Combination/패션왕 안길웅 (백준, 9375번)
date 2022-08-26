@@ -10,78 +10,44 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
 public class Main {
-    static Map<String,Integer> map = new HashMap<>();
+    static Map<String, Integer> map = new HashMap<>();
     static int sum = 0;
 
     public static void main(String[] args) throws IOException {
-        System.out.println(fashionKing());
+        fashionKing();
     }
 
-    public static String fashionKing() throws IOException {
+    public static void fashionKing() throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        List<String> list = new ArrayList<>(101);
         StringBuilder answer = new StringBuilder();
         int size = Integer.parseInt(bufferedReader.readLine());
-        if(size == 0){
-            return "0";
-        }
 
         for (int i = 0; i < size; i++) {
-            answer.append(calculateWearItem()).append("\n");
-            sum = 0;
-        }
-        return answer.toString().trim();
-    }
+            int innerSize = Integer.parseInt(bufferedReader.readLine());
 
-    public static int calculateWearItem() throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        int innerSize = Integer.parseInt(bufferedReader.readLine());
-        if (innerSize==0) return 0;
-        List<String> list = new ArrayList<>(101);
-
-        for (int i = 0; i < innerSize; i++) {
-            String word = bufferedReader.readLine().split(" ")[1];
-            if(Objects.isNull(map.get(word))){
-                map.put(word,1);
-                continue;
+            if (innerSize == 0) {
+                answer.append("0").append("\n");
             }
-            map.put(word,map.get(word)+1);
-        }
 
-        for(Map.Entry<String,Integer> entry : map.entrySet()){
-            list.add(entry.getKey());
-        }
-
-        boolean[] visited = new boolean[list.size()];
-
-        for(int r = 1; r <= list.size(); r++) {
-            comb(list, visited, 0, r);
-        }
-        map.clear();
-
-        return sum;
-    }
-
-    static void comb(List<String> list, boolean[] visited, int start, int r) {
-        if(r == 0) {
-            print(list, visited);
-            return;
-        } else {
-            for(int i = start; i < list.size(); i++) {
-                visited[i] = true;
-                comb(list, visited, i + 1, r - 1);
-                visited[i] = false;
+            for (int j = 0; j < innerSize; j++) {
+                String word = bufferedReader.readLine().split(" ")[1];
+                if (Objects.isNull(map.get(word))) {
+                    map.put(word, 1);
+                    continue;
+                }
+                map.put(word, map.get(word) + 1);
             }
+            System.out.println(map);
+            map.clear();
         }
-    }
-
-    static void print(List<String> list, boolean[] visited) {
-        int mul = 1;
-        for(int i = 0; i < list.size(); i++) {
-            if(visited[i] == true){
-                mul= mul * map.get(list.get(i));
-            }
-        }
-        sum+=mul;
+        System.out.println(map);
     }
 }
+
