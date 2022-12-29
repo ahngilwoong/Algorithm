@@ -23,7 +23,7 @@ class Solution {
         }
         try{
             Integer.parseInt(s);
-        }catch (RuntimeException e){
+        }catch (NumberFormatException e){
             return false;
         }
         return true;
